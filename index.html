@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="birdee">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
   <title>birdee</title>
 </head>
 <body>
@@ -115,7 +115,7 @@
 
     <section id="settings" class="page">
       <div class="eyebrow">Hesabın</div><h1>Ayarlar</h1>
-      <div class="setting-card"><h3>Birdee 0.5</h3><p>Bu prototip verilerini yalnızca bu cihazın tarayıcısında saklar. Hesap veya sunucu kullanılmaz.</p></div>
+      <div class="setting-card"><h3>Birdee 0.6</h3><p>Bu prototip verilerini yalnızca bu cihazın tarayıcısında saklar. Hesap veya sunucu kullanılmaz.</p></div>
       <div class="setting-card"><h3>Veri</h3><button class="secondary" onclick="exportData()">Verilerimi dışa aktar</button><button class="danger" onclick="resetData()">Tüm verileri sil</button></div>
     </section>
   </main>
@@ -129,6 +129,34 @@
   </nav>
 </div>
 
+<div id="onboarding" class="onboarding" hidden>
+  <div class="onboarding-card">
+    <button class="onboarding-skip" type="button" onclick="finishOnboarding()">Atla</button>
+    <div class="onboarding-logo"><img src="icon.svg" alt=""><span>birdee</span></div>
+    <div class="eyebrow">Hoş geldin</div>
+    <h1>Gününü planla.<br>İlerlemeni gör.</h1>
+    <p class="onboarding-lead">Birdee, hedeflerini küçük ve takip edilebilir planlara dönüştürür.</p>
+
+    <div class="onboarding-features">
+      <div class="onboarding-feature">
+        <span class="onboarding-number">01</span>
+        <div><b>Planla</b><p>Ders, spor, sağlık veya kendi hedefini oluştur.</p></div>
+      </div>
+      <div class="onboarding-feature">
+        <span class="onboarding-number">02</span>
+        <div><b>Takip et</b><p>Hedefinin ne kadarını yaptığını anlık yüzdeyle gör.</p></div>
+      </div>
+      <div class="onboarding-feature">
+        <span class="onboarding-number">03</span>
+        <div><b>İlerle</b><p>Takvim ve haftalık görünümle düzenini ölç.</p></div>
+      </div>
+    </div>
+
+    <button class="primary onboarding-start" type="button" onclick="finishOnboarding(true)">Birdee'yi kullanmaya başla</button>
+    <small>Ücretsiz · Hesap gerektirmez · Veriler bu cihazda kalır</small>
+  </div>
+</div>
+
 <dialog id="planDialog">
 <form method="dialog" id="planForm">
   <div class="modal-head"><button type="button" class="ghost" onclick="closePlan()">İptal</button><b>Yeni Plan</b><span></span></div>
@@ -140,6 +168,6 @@
   <button class="primary" value="default" id="savePlanBtn">Planı kaydet</button>
 </form>
 </dialog>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>
