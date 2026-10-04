@@ -108,7 +108,7 @@
 
 <dialog id="planDialog">
 <form method="dialog" id="planForm">
-  <div class="modal-head"><button value="cancel" class="ghost">İptal</button><b>Yeni Plan</b><span></span></div>
+  <div class="modal-head"><button type="button" class="ghost" onclick="closePlan()">İptal</button><b>Yeni Plan</b><span></span></div>
   <label>Plan adı<input id="pName" required placeholder="Örn. Matematik çalış"></label>
   <label>Kategori<select id="pCategory"><option>Ders</option><option>Spor</option><option>Sağlık</option><option>İş</option><option>Kişisel</option><option>Diğer</option></select></label>
   <div class="two"><label>Hedef<input id="pTarget" type="number" min="0.1" step="0.1" value="1"></label><label>Birim<select id="pUnit"></select></label></div>
