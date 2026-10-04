@@ -95,9 +95,10 @@ label{display:block;font-size:12px;font-weight:800;margin:12px 0}input,select{wi
 .week-day{min-width:0;border:1px solid #ecece8;border-radius:15px;padding:11px 7px;text-align:center;background:#fafaf8}
 .week-day.today-mini{outline:2px solid #111;outline-offset:2px}
 .week-day .wd-name{display:block;font-size:10px;color:#858580;margin-bottom:7px}.week-day .wd-score{font-size:16px;font-weight:850}.week-day .wd-dot{width:7px;height:7px;border-radius:50%;display:block;margin:8px auto 0;background:#ddd}
-.week-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-.week-kpis>div{background:#f6f6f3;border-radius:14px;padding:12px}.week-kpis span{display:block;font-size:10px;color:#858580;margin-bottom:5px}.week-kpis strong{font-size:15px}
+.week-kpis{display:grid;grid-template-columns:1fr;gap:12px;margin-top:18px}
+.week-kpis>div{background:#f6f6f3;border-radius:14px;padding:14px 16px}
+.week-kpis strong{display:block;font-size:17px;font-weight:800;line-height:1.55;letter-spacing:-.01em}
 .upcoming-list{display:grid;gap:8px;margin-top:14px}.upcoming-item{display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #efefec}.upcoming-item:last-child{border-bottom:0}.upcoming-dot{width:8px;height:8px;border-radius:50%}.upcoming-main b{display:block;font-size:13px}.upcoming-main span{display:block;font-size:10px;color:#888;margin-top:3px}.upcoming-time{font-size:11px;font-weight:800;color:#555}.upcoming-empty{padding:24px 8px;text-align:center;color:#888;font-size:12px}
 @media(min-width:600px) and (max-width:899px){.dashboard-lower{grid-template-columns:1.35fr .85fr}.week-card,.upcoming-card{padding:18px}.week-snapshot{gap:6px}.week-day{padding:10px 4px}}
 @media(min-width:900px){.dashboard-lower{grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr);gap:22px;margin-top:22px}.week-card,.upcoming-card{padding:20px}.week-day{padding:13px 8px}.week-day .wd-score{font-size:18px}}
-@media(max-width:599px){.week-snapshot{gap:5px}.week-day{padding:9px 3px;border-radius:12px}.week-day .wd-name{font-size:9px}.week-day .wd-score{font-size:13px}.week-kpis{gap:6px}.week-kpis>div{padding:10px 8px}.dashboard-lower{margin-top:18px}}
+@media(max-width:599px){.week-snapshot{gap:5px}.week-day{padding:9px 3px;border-radius:12px}.week-day .wd-name{font-size:9px}.week-day .wd-score{font-size:13px}.week-kpis{gap:10px}.week-kpis>div{padding:12px 14px}.week-kpis strong{font-size:16px}.dashboard-lower{margin-top:18px}}
