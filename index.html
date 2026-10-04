@@ -14,19 +14,109 @@
 </head>
 <body>
 <div id="app">
-  <header><div class="brand"><span class="bird">➤</span><b>birdee</b></div><button class="ghost" id="installBtn" hidden>Yükle</button></header>
+  <header>
+    <div class="brand"><img class="birdmark" src="icon.svg" alt=""><b>birdee</b></div>
+    <button class="ghost" id="installBtn" hidden>Yükle</button>
+  </header>
+
   <main>
     <section id="today" class="page active">
-      <div class="hero"><div><div class="eyebrow" id="todayDate"></div><h1>Bugün</h1><p>Planlarını kendi hızında tamamla.</p></div><div class="score"><span id="score">0</span><small>%</small></div></div>
-      <div class="progress"><i id="progressBar"></i></div>
-      <div class="section-title"><h2>Planlarım</h2><button class="textbtn" onclick="openPlan()">+ Plan</button></div><div id="todayPlans" class="cards"></div><div class="empty" id="todayEmpty">Bugün için plan yok. Yeni bir plan oluştur.</div>
-      <div class="day-review"><h3>Gün sonu</h3><label>Kendi puanın <span id="ratingValue">5</span>/10</label><input id="rating" type="range" min="1" max="10" value="5"><textarea id="dayNote" placeholder="Bugünle ilgili kısa bir not..."></textarea><button class="primary" onclick="saveReview()">Değerlendirmeyi kaydet</button></div>
+      <div class="today-grid">
+        <div class="today-main">
+          <div class="hero-panel">
+            <div class="hero">
+              <div>
+                <div class="eyebrow" id="todayDate"></div>
+                <h1>Bugün</h1>
+                <p>Planlarını kendi hızında tamamla.</p>
+              </div>
+              <div class="score" id="scoreRing"><span id="score">0</span><small>%</small></div>
+            </div>
+            <div class="progress hero-progress"><i id="progressBar"></i></div>
+            <div class="overview-grid">
+              <div class="overview-card"><span>Tamamlandı</span><strong id="completedCount">0</strong></div>
+              <div class="overview-card"><span>Devam ediyor</span><strong id="activeCount">0</strong></div>
+              <div class="overview-card"><span>Bekliyor</span><strong id="waitingCount">0</strong></div>
+            </div>
+          </div>
+
+          <div class="plans-panel">
+            <div class="section-title">
+              <div><span class="eyebrow">Günün akışı</span><h2>Planlarım</h2></div>
+              <button class="textbtn" onclick="openPlan()">+ Yeni plan</button>
+            </div>
+            <div id="todayPlans" class="cards"></div>
+            <div class="empty" id="todayEmpty">
+              <b>Bugün henüz boş.</b>
+              <span>İlk planını ekleyerek gününü şekillendir.</span>
+              <button class="secondary compact" onclick="openPlan()">Plan oluştur</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="today-side">
+          <div class="side-card daily-summary">
+            <div class="section-title"><span class="eyebrow">Günün özeti</span><span class="summary-dot"></span></div>
+            <strong class="summary-score"><span id="sideScore">0</span>%</strong>
+            <p id="dailySummaryText">Plan eklediğinde gününün ritmini burada göreceksin.</p>
+            <div id="todayCategoryMini" class="category-mini"></div>
+          </div>
+
+          <div class="day-review">
+            <div class="section-title"><div><span class="eyebrow">Kapanış</span><h3>Gün sonu</h3></div><span class="review-badge">1–10</span></div>
+            <label>Kendi puanın <span id="ratingValue">5</span>/10</label>
+            <input id="rating" type="range" min="1" max="10" value="5">
+            <textarea id="dayNote" placeholder="Bugünle ilgili kısa bir not..."></textarea>
+            <button class="primary" onclick="saveReview()">Değerlendirmeyi kaydet</button>
+          </div>
+        </aside>
+      </div>
     </section>
-    <section id="calendar" class="page"><div class="section-title"><div><div class="eyebrow">Performans haritası</div><h1>Takvim</h1></div></div><div class="calendar-head"><button onclick="shiftMonth(-1)">‹</button><b id="monthTitle"></b><button onclick="shiftMonth(1)">›</button></div><div class="weekdays"><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span></div><div id="calendarGrid" class="calendar-grid"></div><div class="legend"><span>0%</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><i class="l5"></i><span>100%</span></div></section>
-    <section id="progress" class="page"><div class="eyebrow">Analiz</div><h1>İlerleme</h1><div class="big-card"><span>Son 7 gün</span><strong id="weekScore">0%</strong><div class="progress"><i id="weekBar"></i></div></div><h2>Kategori performansı</h2><div id="categoryStats" class="stats"></div><h2>Son günler</h2><div id="recentDays" class="recent"></div></section>
-    <section id="settings" class="page"><div class="eyebrow">Hesabın</div><h1>Ayarlar</h1><div class="setting-card"><h3>Birdee 0.2</h3><p>Bu prototip verilerini yalnızca bu cihazın tarayıcısında saklar. Hesap veya sunucu kullanılmaz.</p></div><div class="setting-card"><h3>Veri</h3><button class="secondary" onclick="exportData()">Verilerimi dışa aktar</button><button class="danger" onclick="resetData()">Tüm verileri sil</button></div></section>
+
+    <section id="calendar" class="page">
+      <div class="section-title"><div><div class="eyebrow">Performans haritası</div><h1>Takvim</h1></div></div>
+      <div class="calendar-shell">
+        <div class="calendar-head"><button onclick="shiftMonth(-1)">‹</button><b id="monthTitle"></b><button onclick="shiftMonth(1)">›</button></div>
+        <div class="weekdays"><span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span></div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+        <div class="legend"><span>0%</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><i class="l5"></i><span>100%</span></div>
+      </div>
+    </section>
+
+    <section id="progress" class="page">
+      <div class="eyebrow">Analiz</div><h1>İlerleme</h1>
+      <div class="big-card"><span>Son 7 gün</span><strong id="weekScore">0%</strong><div class="progress"><i id="weekBar"></i></div></div>
+      <h2>Kategori performansı</h2><div id="categoryStats" class="stats"></div>
+      <h2>Son günler</h2><div id="recentDays" class="recent"></div>
+    </section>
+
+    <section id="settings" class="page">
+      <div class="eyebrow">Hesabın</div><h1>Ayarlar</h1>
+      <div class="setting-card"><h3>Birdee 0.4</h3><p>Bu prototip verilerini yalnızca bu cihazın tarayıcısında saklar. Hesap veya sunucu kullanılmaz.</p></div>
+      <div class="setting-card"><h3>Veri</h3><button class="secondary" onclick="exportData()">Verilerimi dışa aktar</button><button class="danger" onclick="resetData()">Tüm verileri sil</button></div>
+    </section>
   </main>
-  <nav><button class="active" data-page="today">⌂<span>Bugün</span></button><button data-page="calendar">▦<span>Takvim</span></button><button class="add" onclick="openPlan()">＋</button><button data-page="progress">↗<span>İlerleme</span></button><button data-page="settings">⚙<span>Ayarlar</span></button></nav>
+
+  <nav>
+    <button class="active" data-page="today">⌂<span>Bugün</span></button>
+    <button data-page="calendar">▦<span>Takvim</span></button>
+    <button class="add" onclick="openPlan()">＋</button>
+    <button data-page="progress">↗<span>İlerleme</span></button>
+    <button data-page="settings">⚙<span>Ayarlar</span></button>
+  </nav>
 </div>
-<dialog id="planDialog"><form method="dialog" id="planForm"><div class="modal-head"><button value="cancel" class="ghost">İptal</button><b>Yeni Plan</b><span></span></div><label>Plan adı<input id="pName" required placeholder="Örn. Matematik çalış"></label><label>Kategori<select id="pCategory"><option>Ders</option><option>Spor</option><option>Sağlık</option><option>İş</option><option>Kişisel</option><option>Diğer</option></select></label><div class="two"><label>Hedef<input id="pTarget" type="number" min="0.1" step="0.1" value="1"></label><label>Birim<select id="pUnit"><option>kez</option><option>saat</option><option>dk</option><option>km</option><option>L</option><option>adet</option></select></label></div><label>Saat<input id="pTime" type="time" value="09:00"></label><label>Günler</label><div class="days" id="pDays"></div><button class="primary" value="default" id="savePlanBtn">Planı kaydet</button></form></dialog>
-<script src="app.js"></script></body></html>
+
+<dialog id="planDialog">
+<form method="dialog" id="planForm">
+  <div class="modal-head"><button value="cancel" class="ghost">İptal</button><b>Yeni Plan</b><span></span></div>
+  <label>Plan adı<input id="pName" required placeholder="Örn. Matematik çalış"></label>
+  <label>Kategori<select id="pCategory"><option>Ders</option><option>Spor</option><option>Sağlık</option><option>İş</option><option>Kişisel</option><option>Diğer</option></select></label>
+  <div class="two"><label>Hedef<input id="pTarget" type="number" min="0.1" step="0.1" value="1"></label><label>Birim<select id="pUnit"></select></label></div>
+  <label>Saat<input id="pTime" type="time" value="09:00"></label>
+  <label>Günler</label><div class="days" id="pDays"></div>
+  <button class="primary" value="default" id="savePlanBtn">Planı kaydet</button>
+</form>
+</dialog>
+<script src="app.js"></script>
+</body>
+</html>
