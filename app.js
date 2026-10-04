@@ -36,8 +36,55 @@ function renderToday(){
   const grouped={};ps.forEach(p=>{grouped[p.category]??={s:0,n:0};grouped[p.category].s+=pct(d,p);grouped[p.category].n++});
   const mini=document.querySelector("#todayCategoryMini");mini.innerHTML="";
   Object.entries(grouped).slice(0,5).forEach(([k,v])=>{const pc=Math.round(v.s/v.n);mini.innerHTML+=`<div class="mini-row"><span>${k}</span><div class="mini-bar"><i style="width:${pc}%;background:${categoryColors[k]||"#fff"}"></i></div><b>${pc}%</b></div>`});
-  const rev=state.reviews[todayISO()]||{};document.querySelector("#rating").value=rev.rating||5;document.querySelector("#ratingValue").textContent=rev.rating||5;document.querySelector("#dayNote").value=rev.note||""
+  const rev=state.reviews[todayISO()]||{};document.querySelector("#rating").value=rev.rating||5;document.querySelector("#ratingValue").textContent=rev.rating||5;document.querySelector("#dayNote").value=rev.note||"";renderTodayLower()
 }
+
+function renderTodayLower(){
+  const now=new Date(), today=todayISO(), snap=document.querySelector("#weekSnapshot");
+  if(!snap)return;
+  snap.innerHTML="";
+  let values=[],best=null,bestVal=-1,active=0;
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);
+    const v=dayPct(d),iso=d.toISOString().slice(0,10),has=v!==null;
+    if(has){values.push(v);active++;if(v>bestVal){bestVal=v;best=d}}
+    const el=document.createElement("div");
+    el.className="week-day"+(iso===today?" today-mini":"");
+    const dot=v===null?"#ddd":v<25?"#ef7770":v<50?"#efa35c":v<70?"#e2c64d":v<85?"#9ccc91":v<95?"#5dad69":"#176b38";
+    el.innerHTML=`<span class="wd-name">${d.toLocaleDateString("tr-TR",{weekday:"short"})}</span><strong class="wd-score">${v===null?"—":v+"%"}</strong><i class="wd-dot" style="background:${dot}"></i>`;
+    snap.appendChild(el);
+  }
+  const avg=values.length?Math.round(values.reduce((a,b)=>a+b,0)/values.length):0;
+  document.querySelector("#todayWeekAverage").textContent=avg+"%";
+  document.querySelector("#activeDaysKpi").textContent=active;
+  document.querySelector("#bestDayKpi").textContent=best?best.toLocaleDateString("tr-TR",{weekday:"short"}):"—";
+  let streak=0;
+  for(let i=0;i<30;i++){
+    const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);
+    const v=dayPct(d);
+    if(v!==null&&v>=70)streak++; else if(v!==null)break; else if(i===0)continue; else break;
+  }
+  document.querySelector("#streakKpi").textContent=streak+" gün";
+
+  const list=document.querySelector("#upcomingPlans");list.innerHTML="";
+  const items=[];
+  for(let off=0;off<8&&items.length<5;off++){
+    const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()+off);
+    plansFor(d).sort((a,b)=>a.time.localeCompare(b.time)).forEach(p=>{
+      if(items.length>=5)return;
+      if(off===0&&pct(d,p)>=100)return;
+      items.push({p,d,off});
+    });
+  }
+  if(!items.length){list.innerHTML='<div class="upcoming-empty">Yaklaşan plan yok. Yeni bir plan ekleyebilirsin.</div>';return}
+  items.forEach(({p,d,off})=>{
+    const row=document.createElement("div");row.className="upcoming-item";
+    const day=off===0?"Bugün":off===1?"Yarın":d.toLocaleDateString("tr-TR",{weekday:"short",day:"numeric"});
+    row.innerHTML=`<i class="upcoming-dot" style="background:${categoryColors[p.category]||"#666"}"></i><div class="upcoming-main"><b>${p.name}</b><span>${day} · ${p.category} · hedef ${p.target} ${p.unit}</span></div><span class="upcoming-time">${p.time}</span>`;
+    list.appendChild(row);
+  });
+}
+
 function saveReview(){state.reviews[todayISO()]={rating:Number(document.querySelector("#rating").value),note:document.querySelector("#dayNote").value};save();alert("Gün sonu değerlendirmesi kaydedildi.")}
 document.querySelector("#rating").oninput=e=>document.querySelector("#ratingValue").textContent=e.target.value;
 function updateUnitOptions(){const category=document.querySelector("#pCategory").value,unit=document.querySelector("#pUnit"),previous=unit.value,options=unitOptions[category]||unitOptions["Diğer"];unit.innerHTML="";options.forEach(u=>{const o=document.createElement("option");o.value=u;o.textContent=u;unit.appendChild(o)});if(options.includes(previous))unit.value=previous}
