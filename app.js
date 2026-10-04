@@ -112,6 +112,33 @@ function renderProgress(){let sum=0,count=0,recent=[];const cat={};for(let i=6;i
 function renderAll(){renderToday();renderCalendar();renderProgress()}
 document.querySelectorAll("nav button[data-page]").forEach(b=>b.onclick=()=>{document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.querySelector("#"+b.dataset.page).classList.add("active");document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));b.classList.add("active");if(b.dataset.page==="progress")renderProgress()});
 function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="birdee-verilerim.json";a.click();URL.revokeObjectURL(a.href)}
+function importData(event){
+  const input=event.target,file=input.files&&input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      const valid=data&&Array.isArray(data.plans)&&data.logs&&typeof data.logs==="object"&&!Array.isArray(data.logs)&&data.reviews&&typeof data.reviews==="object"&&!Array.isArray(data.reviews);
+      if(!valid)throw new Error("invalid");
+      const plansValid=data.plans.every(p=>p&&typeof p.id==="string"&&typeof p.name==="string"&&typeof p.category==="string"&&Number.isFinite(Number(p.target))&&Number(p.target)>0&&typeof p.unit==="string"&&typeof p.time==="string"&&Array.isArray(p.days));
+      if(!plansValid)throw new Error("invalid-plans");
+      const replace=confirm("İçe aktarılan veriler bu cihazdaki mevcut Birdee verilerinin yerini alacak. Devam edilsin mi?");
+      if(!replace){input.value="";return}
+      state={plans:data.plans,logs:data.logs,reviews:data.reviews};
+      save();
+      localStorage.setItem("birdeeOnboardingSeen","1");
+      alert("Birdee verileri başarıyla içe aktarıldı.");
+      input.value="";
+      renderAll();
+    }catch(err){
+      input.value="";
+      alert("Bu dosya geçerli bir Birdee yedeği değil.");
+    }
+  };
+  reader.onerror=()=>{input.value="";alert("Dosya okunamadı.")};
+  reader.readAsText(file);
+}
 function resetData(){if(confirm("Tüm Birdee verileri bu cihazdan silinsin mi?")){localStorage.removeItem(KEY);location.reload()}}
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
 let deferred;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;installBtn.hidden=false});installBtn.onclick=async()=>{if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;installBtn.hidden=true}};
