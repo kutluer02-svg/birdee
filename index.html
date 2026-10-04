@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="birdee">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
   <title>birdee</title>
 </head>
 <body>
@@ -115,8 +115,17 @@
 
     <section id="settings" class="page">
       <div class="eyebrow">Hesabın</div><h1>Ayarlar</h1>
-      <div class="setting-card"><h3>Birdee 0.6</h3><p>Bu prototip verilerini yalnızca bu cihazın tarayıcısında saklar. Hesap veya sunucu kullanılmaz.</p></div>
-      <div class="setting-card"><h3>Veri</h3><button class="secondary" onclick="exportData()">Verilerimi dışa aktar</button><button class="danger" onclick="resetData()">Tüm verileri sil</button></div>
+      <div class="setting-card"><h3>Birdee 0.7</h3><p>Bu prototip verilerini yalnızca bu cihazın tarayıcısında saklar. Hesap veya sunucu kullanılmaz.</p></div>
+      <div class="setting-card">
+  <h3>Veri</h3>
+  <p class="setting-hint">Safari, Dock uygulaması veya başka bir cihaz arasında Birdee verilerini taşıyabilirsin.</p>
+  <div class="data-actions">
+    <button class="secondary" onclick="exportData()">Verilerimi dışa aktar</button>
+    <button class="secondary" onclick="document.querySelector('#importFile').click()">Verileri içe aktar</button>
+    <input id="importFile" class="file-input" type="file" accept="application/json,.json" onchange="importData(event)">
+    <button class="danger" onclick="resetData()">Tüm verileri sil</button>
+  </div>
+</div>
     </section>
   </main>
 
@@ -168,6 +177,6 @@
   <button class="primary" value="default" id="savePlanBtn">Planı kaydet</button>
 </form>
 </dialog>
-<script src="app.js?v=8"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>
