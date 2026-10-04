@@ -56,15 +56,15 @@ function renderTodayLower(){
   }
   const avg=values.length?Math.round(values.reduce((a,b)=>a+b,0)/values.length):0;
   document.querySelector("#todayWeekAverage").textContent=avg+"%";
-  document.querySelector("#activeDaysKpi").textContent=active;
-  document.querySelector("#bestDayKpi").textContent=best?best.toLocaleDateString("tr-TR",{weekday:"short"}):"—";
+  document.querySelector("#activeDaysKpi").textContent="Aktif gün - "+active;
+  document.querySelector("#bestDayKpi").textContent="En iyi gün - "+(best?best.toLocaleDateString("tr-TR",{weekday:"short"}):"—");
   let streak=0;
   for(let i=0;i<30;i++){
     const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);
     const v=dayPct(d);
     if(v!==null&&v>=70)streak++; else if(v!==null)break; else if(i===0)continue; else break;
   }
-  document.querySelector("#streakKpi").textContent=streak+" gün";
+  document.querySelector("#streakKpi").textContent="Seri - "+streak+" gün";
 
   const list=document.querySelector("#upcomingPlans");list.innerHTML="";
   const items=[];
