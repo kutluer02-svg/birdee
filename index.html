@@ -71,6 +71,29 @@
           </div>
         </aside>
       </div>
+      <div class="dashboard-lower">
+        <div class="week-card">
+          <div class="section-title">
+            <div><span class="eyebrow">Son 7 gün</span><h3>Haftalık görünüm</h3></div>
+            <div class="week-average"><span>Ortalama</span><strong id="todayWeekAverage">0%</strong></div>
+          </div>
+          <div id="weekSnapshot" class="week-snapshot"></div>
+          <div class="week-kpis">
+            <div><span>Aktif gün</span><strong id="activeDaysKpi">0</strong></div>
+            <div><span>En iyi gün</span><strong id="bestDayKpi">—</strong></div>
+            <div><span>Seri</span><strong id="streakKpi">0 gün</strong></div>
+          </div>
+        </div>
+
+        <div class="upcoming-card">
+          <div class="section-title">
+            <div><span class="eyebrow">Sırada ne var?</span><h3>Yaklaşan planlar</h3></div>
+            <button class="textbtn" onclick="openPlan()">+ Ekle</button>
+          </div>
+          <div id="upcomingPlans" class="upcoming-list"></div>
+        </div>
+      </div>
+
     </section>
 
     <section id="calendar" class="page">
