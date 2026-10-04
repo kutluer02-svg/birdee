@@ -85,6 +85,18 @@ function renderTodayLower(){
   });
 }
 
+function finishOnboarding(startPlanning=false){
+  localStorage.setItem("birdeeOnboardingSeen","1");
+  const el=document.querySelector("#onboarding");
+  if(el)el.hidden=true;
+  if(startPlanning)openPlan();
+}
+function maybeShowOnboarding(){
+  const seen=localStorage.getItem("birdeeOnboardingSeen")==="1";
+  const hasExistingData=state.plans.length>0||Object.keys(state.logs||{}).length>0||Object.keys(state.reviews||{}).length>0;
+  const el=document.querySelector("#onboarding");
+  if(el&&!seen&&!hasExistingData)el.hidden=false;
+}
 function saveReview(){state.reviews[todayISO()]={rating:Number(document.querySelector("#rating").value),note:document.querySelector("#dayNote").value};save();alert("Gün sonu değerlendirmesi kaydedildi.")}
 document.querySelector("#rating").oninput=e=>document.querySelector("#ratingValue").textContent=e.target.value;
 function updateUnitOptions(){const category=document.querySelector("#pCategory").value,unit=document.querySelector("#pUnit"),previous=unit.value,options=unitOptions[category]||unitOptions["Diğer"];unit.innerHTML="";options.forEach(u=>{const o=document.createElement("option");o.value=u;o.textContent=u;unit.appendChild(o)});if(options.includes(previous))unit.value=previous}
@@ -103,4 +115,4 @@ function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:"
 function resetData(){if(confirm("Tüm Birdee verileri bu cihazdan silinsin mi?")){localStorage.removeItem(KEY);location.reload()}}
 if("serviceWorker"in navigator)navigator.serviceWorker.register("sw.js");
 let deferred;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;installBtn.hidden=false});installBtn.onclick=async()=>{if(deferred){deferred.prompt();await deferred.userChoice;deferred=null;installBtn.hidden=true}};
-updateUnitOptions();renderAll();
+updateUnitOptions();renderAll();maybeShowOnboarding();
